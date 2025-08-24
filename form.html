@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>FairNest - Dorm Preference Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #34495e;
+            font-weight: 500;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>FairNest: Dorm Preference Form</h2>
+        <!-- 替换原form标签为带id的form -->
+        <form id="dormForm">
+            <div class="form-group">
+                <label>NetID:</label>
+                <input type="text" name="netid" required>
+            </div>
+
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Grade:</label>
+                <select name="grade">
+                    <option>Freshman</option>
+                    <option>Sophomore</option>
+                    <option>Junior</option>
+                    <option>Senior</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Sleep before 12?</label>
+                <select name="sleep">
+                    <option>Yes</option>
+                    <option>No</option>
+                    <option>Neutral</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Social or Private?</label>
+                <select name="social">
+                    <option>Social</option>
+                    <option>Private</option>
+                    <option>Neutral</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Cleanliness important?</label>
+                <select name="cleanliness">
+                    <option>Yes</option>
+                    <option>No</option>
+                    <option>Neutral</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Smoking?</label>
+                <select name="smoking">
+                    <option>Yes</option>
+                    <option>No</option>
+                    <option>Neutral</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Preferred study place?</label>
+                <select name="study">
+                    <option>Room</option>
+                    <option>Library</option>
+                    <option>Neutral</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Hobby:</label>
+                <select name="hobby">
+                    <option>Sports</option>
+                    <option>Arts</option>
+                    <option>Casual</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Need window?</label>
+                <select name="window">
+                    <option>Yes</option>
+                    <option>No</option>
+                    <option>Neutral</option>
+                </select>
+            </div>
+
+            <button type="submit">提交</button>
+        </form>
+    </div>
+
+    <!-- 放在body结束前的脚本 -->
+    <script>
+    document.getElementById('dormForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        // 提交到 GitHub Issues（需要配置 GitHub Token）
+        const response = await fetch('https://api.github.com/repos/Lyacinth-Liang/BK-FORM/issues', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'token 你的GitHub Token', // 仓库设置→开发者设置→Personal access tokens
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                title: '宿舍偏好提交', 
+                body: `**NetID**: ${data.netid}\n**姓名**: ${data.name}\n**年级**: ${data.grade}\n**12点前睡觉**: ${data.sleep}\n**社交偏好**: ${data.social}\n** cleanliness重要性**: ${data.cleanliness}\n**吸烟态度**: ${data.smoking}\n**偏好学习地点**: ${data.study}\n**爱好**: ${data.hobby}\n**是否需要窗户**: ${data.window}` 
+            })
+        });
+        
+        if (response.ok) {
+            alert('提交成功！数据已同步到 GitHub Issues');
+        } else {
+            alert('提交失败，请稍后再试');
+        }
+    });
+    </script>
+</body>
+</html>
